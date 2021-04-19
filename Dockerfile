@@ -10,7 +10,7 @@ RUN wget https://repo.anaconda.com/archive/Anaconda3-2020.11-Linux-x86_64.sh && 
 ENV PATH /opt/anaconda3/bin:$PATH
 RUN pip install --upgrade pip
 RUN conda upgrade conda
-#RUN conda install numpy pandas jupyterlab scikit-learn matplotlib seaborn git
+RUN conda install numpy pandas jupyterlab scikit-learn matplotlib seaborn git
 #RUN pip install kedro mlflow
 
 WORKDIR /
