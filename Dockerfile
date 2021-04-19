@@ -1,15 +1,17 @@
-FROM nvidia/cuda
+FROM ubuntu:latest
+RUN apt-get update && apt-get install -y \
+	sudo \
+	wget \
+	vim
+WORKDIR /opt
+RUN wget hhttps://repo.anaconda.com/archive/Anaconda3-2020.11-Linux-x86_64.sh && \
+	sh Anaconda3-2020.11-Linux-x86_64.sh -b -p /opt/anaconda3 && \
+	rm -f Anaconda3-2020.11-Linux-x86_64.sh
+ENV PATH /opt/anaconda3/bin:$PATH
+RUN pip install --upgrade pip
+RUN conda upgrade conda
+#RUN conda install numpy pandas jupyterlab scikit-learn matplotlib seaborn git
+#RUN pip install kedro mlflow
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    python3.8 python3-pip python3-setuptools python3-dev
-
-WORKDIR /src
-
-COPY requirements.txt ./requirements.txt
-
-RUN python3.8 -m pip install --no-cache-dir -r requirements.txt
-
-COPY . /src
-
-CMD jupyter notebook --no-browser --port=8888 --ip=0.0.0.0 --allow-root
+WORKDIR /
+CMD ["jupyter","lab","--ip=0.0.0.0","--allow-root","--LabApp.token=''"]
